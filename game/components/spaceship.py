@@ -18,7 +18,7 @@ class Spaceship(Sprite):
     def update(self, user_input):
         if user_input [pygame.K_LEFT]:
             self.rect.x -= 10
-            if self.rect.x < 0:
+            if self.rect.x < -30:
                 self.rect.x = SCREEN_WIDTH
         elif user_input [pygame.K_RIGHT]:
             self.rect.x += 10
