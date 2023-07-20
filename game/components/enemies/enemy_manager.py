@@ -1,27 +1,26 @@
-import pygame
+import random
 from game.components.enemies.enemy import Enemy
-from game.components.enemies.enemy import Meteor
+from game.utils.constants import ENEMY_1, ENEMY_2, ENEMY_3
 
 class EnemyManager:
     def __init__(self):
         self.enemies = []
+        self.enemy_images = [ENEMY_1, ENEMY_2, ENEMY_3]
 
-    def update(self):
+    def update(self, game):
         self.add_enemy()
 
         for enemy in self.enemies:
-            enemy.update(self.enemies)
+            enemy.update(self.enemies, game)
 
     def draw(self, screen):
         for enemy in self.enemies:
             enemy.draw(screen)
-        
-        for meteor in self.enemies:
-            meteor.draw(screen)
 
     def add_enemy(self):
-        if len(self.enemies) < 6:
-            enemy = Enemy()
+        if len(self.enemies) < 4:
+            image = random.choice(self.enemy_images)
+            speed_on_x = random.randint(10, 20)
+            speed_on_y = random.randint(1, 5)
+            enemy = Enemy(image, speed_on_x, speed_on_y)
             self.enemies.append(enemy)
-            meteor = Meteor()
-            self.enemies.append(meteor)
