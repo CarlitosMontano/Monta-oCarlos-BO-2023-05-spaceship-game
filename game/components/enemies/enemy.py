@@ -44,6 +44,7 @@ class Enemy(Sprite):
         
     def handle_direction(self):
         self.movement_count += 1
+
         if (self.movement_count >= self.moves_before_change and self.direction == self.MOVES[1]) or self.rect.right >= SCREEN_WIDTH:
             self.direction = self.MOVES[0]
         elif self.movement_count >= self.moves_before_change and self.direction == self.MOVES[0] or self.rect.left <= 0:
