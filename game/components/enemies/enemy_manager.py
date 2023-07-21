@@ -24,3 +24,7 @@ class EnemyManager:
             speed_on_y = random.randint(1, 5)
             enemy = Enemy(image, speed_on_x, speed_on_y)
             self.enemies.append(enemy)
+
+    def reset(self):
+        self.enemies = []
+        
