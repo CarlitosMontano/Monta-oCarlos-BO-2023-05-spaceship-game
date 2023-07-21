@@ -5,6 +5,7 @@ from game.components.spaceship import Spaceship
 from game.components.enemies.enemy_manager import EnemyManager
 from game.components.bullets.bullet_manager import BulletManager
 from game.components.menu import Menu
+from game.components.game_2 import Game_2
 
 class Game:
     def __init__(self):
@@ -15,7 +16,8 @@ class Game:
         self.clock = pygame.time.Clock()
         self.playing = False
         self.running = False
-        self.score = False
+        self.score = 0
+        self.death_score = 0
         self.game_speed = 10
         self.x_pos_bg = 0
         self.y_pos_bg = 0
@@ -24,6 +26,8 @@ class Game:
         self.enemy_manager = EnemyManager()
         self.bullet_manager = BulletManager()
         self.menu = Menu(self.screen, 'Press any button to start the mission')
+        self.game_2 = Game_2(self.screen)
+
 
     def execute(self):
         self.running = True
@@ -36,6 +40,7 @@ class Game:
         self.score = 0
         self.bullet_manager.reset()
         self.enemy_manager.reset()
+        self.player.reset()
         # Game loop: events - update - draw
         self.playing = True
         while self.playing:
@@ -61,7 +66,7 @@ class Game:
         self.player.draw(self.screen)
         self.enemy_manager.draw(self.screen)
         self.bullet_manager.draw(self.screen)
-        self.draw_score()
+        self.game_2.draw_score(self.score)
         pygame.display.update()
         # pygame.display.flip()
 
@@ -83,10 +88,18 @@ class Game:
 
         if self.death_counter > 0:
             self.menu.update_message('Game over')
+            self.game_2.show_death_score(self.death_counter)
 
             icon = pygame.transform.scale((ICON), (80, 120))
-            self.screen.blit(icon, ((SCREEN_WIDTH / 2) - 50, (SCREEN_HEIGHT / 2)- 150))
+            self.screen.blit(icon, ((SCREEN_WIDTH / 2) - 50, (SCREEN_HEIGHT / 2) - 150))
+            self.game_2.show_score(self.score)
 
+        if self.score > self.game_2.last_score:
+            self.game_2.last_score = self.score
+            self.game_2.show_score(self.score)
+        elif self.score < self.game_2.last_score:
+            self.game_2.show_highest_score(self.game_2.last_score)
+    
         self.menu.draw(self.screen)
         self.menu.update(self)
 
@@ -96,8 +109,4 @@ class Game:
     def increase_score(self):
         self.score += 1
 
-    def draw_score(self):
-        font = pygame.font.Font(FONT_STYLE, 30)
-        text = font.render(f'Score: {self.score}', False, 'White')
-        text_rect = text.get_rect(topright = (SCREEN_WIDTH - 30, 30))
-        self.screen.blit(text, text_rect)
+    

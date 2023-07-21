@@ -28,7 +28,10 @@ class Spaceship(Sprite):
             self.rect.y -= 10
         elif user_input[pygame.K_DOWN] and self.rect.bottom < SCREEN_HEIGHT:
             self.rect.y += 10
-    
+            
+    def reset(self):
+        self.rect = self.image.get_rect(midbottom =(self.SPACESHIP_POS_X, self.SPACESHIP_POS_Y))
+        
     def draw(self, screen):
         screen.blit(self.image, self.rect)
         
