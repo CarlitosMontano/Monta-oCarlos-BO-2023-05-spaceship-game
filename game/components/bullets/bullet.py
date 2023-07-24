@@ -13,12 +13,13 @@ class Bullet(Sprite):
         self.image = self.BULLET_TYPES[spaceship.type]
         self.rect = self.image.get_rect(center = spaceship.rect.center)
         self.owner = spaceship.type
-
+    
     def update(self, bullets):
         if self.owner == 'player':
             self.rect.y -= 10
         else:
             self.rect.y += 10
+
         if self.rect.top < 0 or self.rect.centery > SCREEN_HEIGHT:
             bullets.remove(self)
 

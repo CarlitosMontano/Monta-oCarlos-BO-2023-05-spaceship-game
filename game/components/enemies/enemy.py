@@ -35,13 +35,15 @@ class Enemy(Sprite):
             self.rect.x -= self.speed_on_x
         elif self.direction == self.MOVES[1]:
             self.rect.x += self.speed_on_x
+
         self.handle_direction()
+
         if self.rect.top > SCREEN_HEIGHT:
             enemies.remove(self)
 
     def draw(self, screen):
         screen.blit(self.image, self.rect)
-        
+
     def handle_direction(self):
         self.movement_count += 1
 
@@ -49,7 +51,7 @@ class Enemy(Sprite):
             self.direction = self.MOVES[0]
         elif self.movement_count >= self.moves_before_change and self.direction == self.MOVES[0] or self.rect.left <= 0:
             self.direction = self.MOVES[1]
-
+        
         if (self.movement_count >= self.moves_before_change):
             self.movement_count = 0
 
