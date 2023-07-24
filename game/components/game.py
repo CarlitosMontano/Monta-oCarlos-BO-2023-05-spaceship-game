@@ -47,14 +47,16 @@ class Game:
         self.bullet_manager.reset()
         self.enemy_manager.reset()
         self.power_up_manager.reset()
+        self.adjust_background_music_volume(0.5)
+
+        pygame.mixer.music.load(BACKGROUND_MUSIC)
+        pygame.mixer.music.play(-1)
         # Game loop: events - update - draw
         self.playing = True
         while self.playing:
             self.events()
             self.update()
             self.draw()
-            self.player.shoot(self.bullet_manager)
-            self.player.play_shoot_sound()
 
     def events(self):
         for event in pygame.event.get():
@@ -67,9 +69,6 @@ class Game:
         self.enemy_manager.update(self)
         self.bullet_manager.update(self)
         self.power_up_manager.update(self)
-        if self.player.cant_shoot:
-            pygame.time.set_timer(pygame.USEREVENT, 0)  # Detener el temporizador
-            self.player.can_shoot = False #Restablecer la bandera can_shoot
 
     def draw(self):
         self.clock.tick(FPS)
@@ -129,6 +128,9 @@ class Game:
                 self.player.has_power_up = False
                 self.player.power_up_type = DEFAULT_TYPE
                 self.player.set_image()
+
+    def adjust_background_music_volume(self, volume):
+        pygame.mixer.music.set_volume(volume)
 
 
     

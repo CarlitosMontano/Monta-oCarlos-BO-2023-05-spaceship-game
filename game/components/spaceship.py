@@ -36,7 +36,7 @@ class Spaceship(Sprite):
             self.rect.y += 10
 
         current_time = pygame.time.get_ticks()
-        if user_input[pygame.K_SPACE] and self.cant_shoot:
+        if user_input[pygame.K_SPACE] and not self.cant_shoot:
             if current_time - self.last_shoot_time >= self.shoot_delay:
                 self.shoot(game.bullet_manager)
                 self.last_shoot_time = current_time
